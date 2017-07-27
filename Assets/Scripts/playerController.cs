@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
-    public bool grounded = true;
-
     Rigidbody2D rb;
     [SerializeField]
     float speed = 5.0f;
     [SerializeField]
     float jumpStrength = 100.0f;
+    [SerializeField]
+    GameObject landingSplash;
+    bool grounded, landed;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         rb = GetComponent<Rigidbody2D>();
 	}
@@ -23,10 +24,30 @@ public class playerController : MonoBehaviour
     {
         transform.Translate(new Vector2(Input.GetAxis("Horizontal") * speed, 0));
 
-        /*if (Input.GetKeyDown(KeyCode.Space))
+        // Raycast to check if we are grounded
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.2f), Vector2.down);
+        if (hit.collider != null)
         {
-            Debug.Log("Pressing space");
-            rb.AddForce(new Vector2(0, jumpStrength));
-        }*/
+            float dist = hit.point.y - transform.position.y;
+            if (-dist <= 0.3f)
+            {
+                grounded = true;
+                if (!landed)
+                {
+                    Instantiate(landingSplash, transform.position, transform.rotation);
+                    landed = true;
+                }
+            }
+            else
+            {
+                grounded = false;
+                landed = false;
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.W) && grounded)
+        {
+            rb.AddForce(Vector2.up * jumpStrength);
+        }
 	}
 }
