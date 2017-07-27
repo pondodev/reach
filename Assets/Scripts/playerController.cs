@@ -11,6 +11,8 @@ public class playerController : MonoBehaviour
     float jumpStrength = 100.0f;
     [SerializeField]
     GameObject landingSplash;
+    [SerializeField]
+    LayerMask raycastInclude = -1;
     bool grounded, landed;
 
     // Use this for initialization
@@ -25,28 +27,31 @@ public class playerController : MonoBehaviour
         transform.Translate(new Vector2(Input.GetAxis("Horizontal") * speed, 0));
 
         // Raycast to check if we are grounded
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 0.2f), Vector2.down);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.3f, raycastInclude.value);
+        Debug.DrawRay(transform.position, Vector3.down * 0.3f, Color.red);
+
         if (hit.collider != null)
         {
-            float dist = hit.point.y - transform.position.y;
-            if (-dist <= 0.3f)
+            grounded = true;
+            if (!landed)
             {
-                grounded = true;
-                if (!landed)
-                {
-                    Instantiate(landingSplash, transform.position, transform.rotation);
-                    landed = true;
-                }
+                // Start land animation and instantiate splash
+                GetComponent<Animator>().SetBool("grounded", true);
+                Instantiate(landingSplash, transform.position, transform.rotation);
+                landed = true;
             }
-            else
-            {
-                grounded = false;
-                landed = false;
-            }
+        }
+        else
+        {
+            // If we are no longer grounded, make sure we know that
+            grounded = false;
+            landed = false;
         }
         
         if (Input.GetKeyDown(KeyCode.W) && grounded)
         {
+            // When we jump we want to play the animation and add force upwards
+            GetComponent<Animator>().SetBool("grounded", false);
             rb.AddForce(Vector2.up * jumpStrength);
         }
 	}
