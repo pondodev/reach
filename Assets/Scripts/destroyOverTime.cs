@@ -9,6 +9,6 @@ public class destroyOverTime : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        Destroy(this, lifetime);
+        Destroy(this.gameObject, lifetime);
 	}
 }
