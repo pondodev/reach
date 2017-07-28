@@ -44,8 +44,6 @@ Shader "Hidden/PostFX"
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv + float2(0, sin(i.vertex.x / 10 + _Time[3]) / 1000));
-				// just invert the colors
-				//col = 1 - col;
 				return col;
 			}
 			ENDCG
