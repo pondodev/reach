@@ -27,10 +27,12 @@ public class playerController : MonoBehaviour
         transform.Translate(new Vector2(Input.GetAxis("Horizontal") * speed, 0));
 
         // Raycast to check if we are grounded
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.3f, raycastInclude.value);
-        Debug.DrawRay(transform.position, Vector3.down * 0.3f, Color.red);
+        RaycastHit2D hit1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.2f, transform.position.y), Vector2.down, 0.3f, raycastInclude.value);
+        RaycastHit2D hit2 = Physics2D.Raycast(new Vector2(transform.position.x - 0.2f, transform.position.y), Vector2.down, 0.3f, raycastInclude.value);
+        Debug.DrawRay(new Vector3(transform.position.x + 0.16f, transform.position.y), Vector3.down * 0.25f, Color.red);
+        Debug.DrawRay(new Vector3(transform.position.x - 0.16f, transform.position.y), Vector3.down * 0.25f, Color.red);
 
-        if (hit.collider != null)
+        if (hit1.collider != null || hit2.collider != null)
         {
             grounded = true;
             if (!landed)
@@ -57,5 +59,5 @@ public class playerController : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.AddForce(Vector2.up * jumpStrength);
         }
-	}
+    }
 }

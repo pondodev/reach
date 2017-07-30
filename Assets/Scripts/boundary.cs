@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class boundary : MonoBehaviour
 {
+    [SerializeField]
+    GameObject death;
     Vector2 spawnPoint;
 
     void Start()
@@ -23,7 +25,7 @@ public class boundary : MonoBehaviour
     {
         if (col.tag == "Player")
         {
-            Debug.Log("Elvis has left the building");
+            Instantiate(death, GameObject.FindGameObjectsWithTag("Player")[0].transform.position, GameObject.FindGameObjectsWithTag("Player")[0].transform.rotation);
             GameObject.FindGameObjectsWithTag("Player")[0].transform.position = spawnPoint;
         }
     }
