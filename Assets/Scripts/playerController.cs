@@ -24,7 +24,7 @@ public class playerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        transform.Translate(new Vector2(Input.GetAxis("Horizontal") * speed, 0));
+        transform.Translate(new Vector2((Input.GetAxis("Horizontal") * speed) * Time.deltaTime, 0));
 
         // Raycast to check if we are grounded
         RaycastHit2D hit1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.2f, transform.position.y), Vector2.down, 0.3f, raycastInclude.value);
@@ -51,7 +51,7 @@ public class playerController : MonoBehaviour
             landed = false;
         }
         
-        if (Input.GetKeyDown(KeyCode.Space) && grounded || Input.GetKeyDown(KeyCode.W) && grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && grounded || Input.GetKeyDown(KeyCode.W) && grounded || Input.GetKeyDown(KeyCode.UpArrow) && grounded)
         {
             // When we jump we want to play the animation and add force upwards
             GetComponent<Animator>().SetBool("grounded", false);

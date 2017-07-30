@@ -10,10 +10,10 @@ public class camFocus : MonoBehaviour
 	void Update ()
     {
         timer += Time.deltaTime;
-        if (timer > 0.5f)
+        if (timer > 1.0f)
         {
             timer = 0.0f;
-            transform.localPosition = new Vector2(Random.Range(-2.0f, 2.0f), Random.Range(-2.0f, 2.0f));
+            transform.localPosition = new Vector2(Random.Range(-1.5f, 1.5f), Random.Range(-1.5f, 1.5f));
             transform.rotation = Quaternion.Euler(0, 0, Random.Range(-2.5f, 2.5f));
         }
 	}
