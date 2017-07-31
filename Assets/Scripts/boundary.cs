@@ -8,6 +8,8 @@ public class boundary : MonoBehaviour
     GameObject death;
     Vector2 spawnPoint;
 
+    public playerController pcScript;
+
     void Start()
     {
         if (GameObject.FindGameObjectsWithTag("Player").Length > 1)
@@ -25,8 +27,17 @@ public class boundary : MonoBehaviour
     {
         if (col.tag == "Player")
         {
-            Instantiate(death, GameObject.FindGameObjectsWithTag("Player")[0].transform.position, GameObject.FindGameObjectsWithTag("Player")[0].transform.rotation);
-            GameObject.FindGameObjectsWithTag("Player")[0].transform.position = spawnPoint;
+            pcScript.deaths += 1;
+            if (pcScript.deaths < 10)
+            {
+                Instantiate(death, GameObject.FindGameObjectsWithTag("Player")[0].transform.position, GameObject.FindGameObjectsWithTag("Player")[0].transform.rotation);
+                GameObject.FindGameObjectsWithTag("Player")[0].transform.position = spawnPoint;
+            }
+            else
+            {
+                Instantiate(death, GameObject.FindGameObjectsWithTag("Player")[0].transform.position, GameObject.FindGameObjectsWithTag("Player")[0].transform.rotation);
+                pcScript.endSequence();
+            }
         }
     }
 }
