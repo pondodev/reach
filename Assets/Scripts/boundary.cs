@@ -19,7 +19,7 @@ public class boundary : MonoBehaviour
         else
         {
             Debug.Log("Found player!");
-            spawnPoint = GameObject.FindGameObjectsWithTag("Player")[0].transform.position;
+            spawnPoint = pcScript.gameObject.transform.position;
         }
     }
 
@@ -30,12 +30,14 @@ public class boundary : MonoBehaviour
             pcScript.deaths += 1;
             if (pcScript.deaths < 10)
             {
-                Instantiate(death, GameObject.FindGameObjectsWithTag("Player")[0].transform.position, GameObject.FindGameObjectsWithTag("Player")[0].transform.rotation);
-                GameObject.FindGameObjectsWithTag("Player")[0].transform.position = spawnPoint;
+                Instantiate(death, pcScript.gameObject.transform.position, pcScript.gameObject.transform.rotation);
+                pcScript.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                pcScript.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0.0f;
+                pcScript.gameObject.transform.position = spawnPoint;
             }
             else
             {
-                Instantiate(death, GameObject.FindGameObjectsWithTag("Player")[0].transform.position, GameObject.FindGameObjectsWithTag("Player")[0].transform.rotation);
+                Instantiate(death, pcScript.gameObject.transform.position, pcScript.gameObject.transform.rotation);
                 pcScript.endSequence();
             }
         }
