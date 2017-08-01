@@ -73,6 +73,6 @@ public class playerController : MonoBehaviour
     // Function to be called once the player has reached the end of the game
     public void endSequence()
     {
-
+        GameObject.FindGameObjectsWithTag("endtext")[0].GetComponent<Animator>().SetBool("gameEnded", true);
     }
 }
