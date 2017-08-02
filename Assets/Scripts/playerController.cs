@@ -18,7 +18,7 @@ public class playerController : MonoBehaviour
     LayerMask raycastInclude = -1;
     [SerializeField]
     Image overlay;
-    bool grounded, landed;
+    bool grounded, landed, ready;
 
     public int deaths = 0;
 
@@ -33,7 +33,10 @@ public class playerController : MonoBehaviour
     {
         overlay.color = new Vector4(0, 0, 0, Mathf.SmoothDamp(overlay.color.a, overlayAlpha[deaths], ref refVel, 0.1f));
 
-        transform.Translate(new Vector2((Input.GetAxis("Horizontal") * speed) * Time.deltaTime, 0));
+        if (ready)
+        {
+            transform.Translate(new Vector2((Input.GetAxis("Horizontal") * speed) * Time.deltaTime, 0));
+        }
 
         // Raycast to check if we are grounded
         RaycastHit2D hit1 = Physics2D.Raycast(new Vector2(transform.position.x + 0.2f, transform.position.y), Vector2.down, 0.3f, raycastInclude.value);
@@ -60,7 +63,9 @@ public class playerController : MonoBehaviour
             landed = false;
         }
         
-        if (Input.GetKeyDown(KeyCode.Space) && grounded || Input.GetKeyDown(KeyCode.W) && grounded || Input.GetKeyDown(KeyCode.UpArrow) && grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && grounded && ready ||
+            Input.GetKeyDown(KeyCode.W) && grounded && ready ||
+            Input.GetKeyDown(KeyCode.UpArrow) && grounded && ready)
         {
             // When we jump we want to play the animation and add force upwards
             GetComponent<Animator>().SetBool("grounded", false);
@@ -68,6 +73,18 @@ public class playerController : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.AddForce(Vector2.up * jumpStrength);
         }
+    }
+
+    // Allow movement when visible
+    void OnBecameVisible ()
+    {
+        ready = true;
+    }
+
+    // Disable movement when not visible
+    void OnBecameInvisible ()
+    {
+        ready = false;
     }
 
     // Function to be called once the player has reached the end of the game
