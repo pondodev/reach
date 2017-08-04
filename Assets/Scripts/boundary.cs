@@ -28,7 +28,7 @@ public class boundary : MonoBehaviour
         if (col.tag == "Player")
         {
             pcScript.deaths += 1;
-            if (pcScript.deaths < 10)
+            if (pcScript.deaths < 5)
             {
                 Instantiate(death, pcScript.gameObject.transform.position, pcScript.gameObject.transform.rotation);
                 pcScript.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;

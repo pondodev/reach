@@ -10,7 +10,7 @@ public class playerController : MonoBehaviour
     float speed = 5.0f;
     [SerializeField]
     float jumpStrength = 100.0f;
-    float[] overlayAlpha = new float[11] { 0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f };
+    float[] overlayAlpha = new float[6] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
     float refVel = 0.0f;
     [SerializeField]
     GameObject landingSplash;
